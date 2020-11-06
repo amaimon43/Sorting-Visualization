@@ -57,37 +57,71 @@ void Card::setValue(int num, float startX, float startY) {
 /* void Card::stopY() { */
 /*     m_movingY = 0; */
 /* } */
-void Card::update(Time dt) {
-    if (m_moving) {
-        m_Position.x += m_Speed * dt.asSeconds();
-        if (m_Position.x > m_moveCoordinates.x) {
-            m_Position.x = m_moveCoordinates.x;
-            m_moving = 0;
-        }
+/* void Card::update(Time dt) { */
+/*     if (m_moving = 1) { */
+/*         m_Position.x += m_Speed * dt.asSeconds(); */
+/*         if (m_Position.x > m_moveCoordinates.x) { */
+/*             m_Position.x = m_moveCoordinates.x; */
+/*             m_moving = 0; */
+/*         } */
+/*     } */
+/* if (m_movingL) { */
+/*     m_Position.x -= m_Speed * dt.asSeconds(); */
+/*     if (m_Position.x < m_moveCoordinates.x) { */
+/*         m_Position.x = m_moveCoordinates.x; */
+/*         m_movingL = 0; */
+/*     } */
+/* m_Sprite.setPosition(m_Position); */
+/* m_number.setPosition(m_Sprite.getPosition().x + 43, m_Sprite.getPosition().y + 40); */
+/* } */
+
+/* void Card::moveTo(int arrayIndex, Card &moveToThisCard) { */
+/*     if (!m_moving) { */
+/*         m_moving = 1; */
+/*         m_moveCoordinates.x = moveToThisCard.m_Position.x - 10; */
+/*         m_moveCoordinates.y = moveToThisCard.m_Position.y - 10; */
+/*     } */
+/* } */
+/* void Card::moveToL(int arrayIndex, Card &moveToThisCard) { */
+/*     if (!m_movingL) { */
+/*         m_movingL = 1; */
+/*         m_moveCoordinates.x = moveToThisCard.m_Position.x - 10; */
+/*         m_moveCoordinates.y = moveToThisCard.m_Position.y - 10; */
+/*     } */
+/* } */
+
+int Card::isItMovingCommand() {
+    return m_moveSig;
+}
+void Card::moveTo(Card &moveToThisCard) {
+    if (!m_moving) {
+        m_moveCoordinates.x = moveToThisCard.m_Position.x - 10;
+        m_moveCoordinates.y = moveToThisCard.m_Position.y - 10;
     }
-    if (m_movingL) {
-        m_Position.x -= m_Speed * dt.asSeconds();
-        if (m_Position.x < m_moveCoordinates.x) {
-            m_Position.x = m_moveCoordinates.x;
-            m_movingL = 0;
+}
+void Card::update(Time dt) {
+    if (m_moving == 1) {
+        if (m_moveCoordinates.x > m_Position.x) {
+            m_Position.x += m_Speed * dt.asSeconds();
+            if (m_Position.x > m_moveCoordinates.x) {
+                m_Position.x = m_moveCoordinates.x;
+                m_moving = 0;
+            }
+        }
+        if (m_moveCoordinates.x < m_Position.x) {
+            m_Position.x -= m_Speed * dt.asSeconds();
+            if (m_Position.x < m_moveCoordinates.x) {
+                m_Position.x = m_moveCoordinates.x;
+                m_moving = 0;
+            }
         }
     }
     m_Sprite.setPosition(m_Position);
     m_number.setPosition(m_Sprite.getPosition().x + 43, m_Sprite.getPosition().y + 40);
 }
-void Card::moveTo(int arrayIndex, Card &moveToThisCard) {
-    if (!m_moving) {
-        m_moving = 1;
-        m_movePostn = arrayIndex;
-        m_moveCoordinates.x = moveToThisCard.m_Position.x - 10;
-        m_moveCoordinates.y = moveToThisCard.m_Position.y - 10;
-    }
+void Card::moveNow() {
+    m_moving = 1;
 }
-void Card::moveToL(int arrayIndex, Card &moveToThisCard) {
-    if (!m_movingL) {
-        m_movingL = 1;
-        m_movePostn = arrayIndex;
-        m_moveCoordinates.x = moveToThisCard.m_Position.x - 10;
-        m_moveCoordinates.y = moveToThisCard.m_Position.y - 10;
-    }
+void Card::stopNow() {
+    m_moving = 0;
 }

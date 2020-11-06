@@ -15,11 +15,13 @@ class Card {
     Font font;
     float m_Speed = 50;
     bool m_moving = 0;
-    bool m_movingL = 0;
-    int m_movePostn;
     Vector2f m_moveCoordinates;
+    int m_moveSig = 1;
 
   public:
+    int isItMovingCommand();
+    void moveNow();
+    void stopNow();
     Card(int num = 0, float startX = 50, float startY = 50);
     void update(Time dt);
     FloatRect getPosition();
@@ -27,6 +29,6 @@ class Card {
     float getHeight();
     void setValue(int num, float startX, float startY);
     Text getNumber();
-    void moveTo(int arrayIndex, Card &moveToThisCard);
-    void moveToL(int arrayIndex, Card &moveToThisCard);
+    void moveTo(Card &moveToThisCard);
+    void moveToL(Card &moveToThisCard);
 };

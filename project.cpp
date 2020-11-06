@@ -58,15 +58,32 @@ int main() {
 
     Clock clock;
     while (window.isOpen()) {
+        movers[0] = save[0][0];
+        movers[1] = save[0][1];
+
         if (Keyboard::isKeyPressed(Keyboard::Escape)) {
             window.close();
         }
-        if (Keyboard::isKeyPressed(Keyboard::Left)) buttonLeft.clickLeft();
-        else
+        if (Keyboard::isKeyPressed(Keyboard::Left)) {
+            buttonLeft.clickLeft();
+            /* card[movers[0]].moveNow(); */
+            /* card[movers[1]].moveNow(); */
+        } else {
             buttonLeft.unclickLeft();
-        if (Keyboard::isKeyPressed(Keyboard::Right)) buttonRight.clickRight();
-        else
+            /* card[movers[0]].stopNow(); */
+            /* card[movers[1]].stopNow(); */
+        }
+        if (Keyboard::isKeyPressed(Keyboard::Right)) {
+            buttonRight.clickRight();
+            card[movers[0]].moveNow();
+            /* card[movers[1]].moveNow(); */
+        }
+
+        else {
             buttonRight.unclickRight();
+            card[movers[0]].stopNow();
+            /* card[movers[1]].stopNow(); */
+        }
 
         Time dt = clock.restart();
         for (int i = 0; i < numOfCards; i++) {
@@ -75,10 +92,11 @@ int main() {
         buttonLeft.update(dt);
         buttonRight.update(dt);
 
-        movers[0] = save[0][0];
-        movers[1] = save[0][1];
-        card[movers[0]].moveTo(movers[1], card[movers[1]]);
-        card[movers[1]].moveToL(movers[0], card[movers[0]]);
+        /* card[movers[1]].moveToL(movers[0], card[movers[0]]); */
+        if (card[movers[0]].isItMovingCommand() == 1)
+            card[movers[0]].moveTo(card[movers[1]]);
+        /* if (card[movers[1]].isItMovingCommand() == 1) */
+        /*     card[movers[1]].moveTo(card[movers[0]]); */
 
         window.clear();
         /* for (int i = 0; i < numOfCards; i++) { */
