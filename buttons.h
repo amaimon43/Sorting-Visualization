@@ -11,7 +11,7 @@ class Button {
     Sprite *m_returnSprite;
     Texture m_TextureUnclicked;
     Texture m_TextureClicked;
-    bool m_clickingLeft = 0;
+    bool m_clickingLeft = 0, m_clickingRight = 0;
 
   public:
     Sprite getSprite();
@@ -20,5 +20,7 @@ class Button {
     void update(Time dt);
     void clickLeft();
     void unclickLeft();
+    void clickRight();
+    void unclickRight();
     void setPosition(float, float);
 };

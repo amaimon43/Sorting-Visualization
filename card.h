@@ -13,11 +13,13 @@ class Card {
     Text m_number;
     std::stringstream m_protoNumber;
     Font font;
-    bool m_movingX = 0, m_movingY = 0;
-    float m_Speed, m_movedX = 0, m_movedY = 0;
+    float m_Speed = 50;
+    bool m_moving = 0;
+    bool m_movingL = 0;
+    int m_movePostn;
+    Vector2f m_moveCoordinates;
 
   public:
-    bool m_move;
     Card(int num = 0, float startX = 50, float startY = 50);
     void update(Time dt);
     FloatRect getPosition();
@@ -25,8 +27,6 @@ class Card {
     float getHeight();
     void setValue(int num, float startX, float startY);
     Text getNumber();
-    void moveX();
-    void moveY();
-    void stopX();
-    void stopY();
+    void moveTo(int arrayIndex, Card &moveToThisCard);
+    void moveToL(int arrayIndex, Card &moveToThisCard);
 };
