@@ -50,8 +50,8 @@ int Card::isItMoving() {
     return m_moving;
 }
 void Card::moveTo(Card &moveToThisCard) {
-    m_moveCoordinates.x = moveToThisCard.m_Position.x - 10;
-    m_moveCoordinates.y = moveToThisCard.m_Position.y - 10;
+    m_moveCoordinates.x = moveToThisCard.m_Position.x;
+    m_moveCoordinates.y = moveToThisCard.m_Position.y;
 }
 void Card::update(Time dt) {
     if (m_moving == 1) {
@@ -60,6 +60,7 @@ void Card::update(Time dt) {
             if (m_Position.x > m_moveCoordinates.x) {
                 m_Position.x = m_moveCoordinates.x;
                 m_moving = 0;
+                m_animating = 0;
             }
         }
         if (m_moveCoordinates.x < m_Position.x) {
@@ -67,6 +68,7 @@ void Card::update(Time dt) {
             if (m_Position.x < m_moveCoordinates.x) {
                 m_Position.x = m_moveCoordinates.x;
                 m_moving = 0;
+                m_animating = 0;
             }
         }
     }

@@ -13,7 +13,7 @@ class Card {
     Text m_number;
     std::stringstream m_protoNumber;
     Font font;
-    float m_Speed = 50;
+    float m_Speed = 300;
     bool m_moving = 0, m_animating = 0;
     Vector2f m_moveCoordinates;
 
