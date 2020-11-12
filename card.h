@@ -14,12 +14,12 @@ class Card {
     std::stringstream m_protoNumber;
     Font font;
     float m_Speed = 50;
-    bool m_moving = 0;
+    bool m_moving = 0, m_animating = 0;
     Vector2f m_moveCoordinates;
-    int m_moveSig = 1;
 
   public:
-    int isItMovingCommand();
+    int isItMoving();
+    bool isItAnimating();
     void moveNow();
     void stopNow();
     Card(int num = 0, float startX = 50, float startY = 50);
@@ -31,4 +31,6 @@ class Card {
     Text getNumber();
     void moveTo(Card &moveToThisCard);
     void moveToL(Card &moveToThisCard);
+    void animateNow();
+    void stopAnimation();
 };

@@ -1,0 +1,14 @@
+{
+    "configurations": {
+        "Launch": {
+            "adapter": "vscode-cpptools",
+            "configuration": {
+                "request": "launch",
+                "program": "./sfml-app",
+                "cwd": "~/sort_animation",
+                "externalConsole": true,
+                "MIMode": "gdb"
+            }
+        }
+    }
+}
