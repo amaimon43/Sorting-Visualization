@@ -13,21 +13,23 @@ class Card {
     Text m_number;
     std::stringstream m_protoNumber;
     Font font;
-    float m_Speed = 300;
+    float m_Speed = 1000;
     bool m_moving = 0, m_animating = 0;
     Vector2f m_moveCoordinates;
+    int m_positionNumber;
 
   public:
+    static Card *m_array;
+    Card(int num = 0, float startX = 50, float startY = 50);
+    void setValue(int num, int positionNumber, float startX, float startY);
     int isItMoving();
     bool isItAnimating();
     void moveNow();
     void stopNow();
-    Card(int num = 0, float startX = 50, float startY = 50);
     void update(Time dt);
     FloatRect getPosition();
     Sprite getSprite();
     float getHeight();
-    void setValue(int num, float startX, float startY);
     Text getNumber();
     void moveTo(Card &moveToThisCard);
     void moveToL(Card &moveToThisCard);

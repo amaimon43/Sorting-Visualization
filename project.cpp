@@ -15,6 +15,7 @@ void swap(int *xp, int *yp) {
     *yp = temp;
 }
 void Sort(int numInsideCard[], int numOfCards) {
+    /* save.push_back({0, 0}); */
     for (int i = 0; i < numOfCards - 1; i++) {
         for (int p = 0; p < numOfCards - i - 1; p++) {
             if (numInsideCard[p] > numInsideCard[p + 1]) {
@@ -24,15 +25,16 @@ void Sort(int numInsideCard[], int numOfCards) {
         }
     }
 }
-
+Card *Card::m_array{};
 int main() {
     const int numOfCards = 8;
-    int numInsideCard[numOfCards] = {8, 7, 6, 5, 4, 3, 2, 1};
-    int numInsideCardSorted[numOfCards] = {8, 7, 6, 5, 4, 3, 2, 1};
+    int numInsideCard[numOfCards] = {6, 7, 8, 5, 4, 3, 2, 1};
+    int numInsideCardSorted[numOfCards] = {6, 7, 8, 5, 4, 3, 2, 1};
     Card card[numOfCards];
+    card[0].m_array = card;
     Sort(numInsideCardSorted, numOfCards);
     std::vector<int> movers;
-    std::vector<std::vector<int>>::iterator ptr = save.begin();
+    int incrementSave = 0;
 
     for (int i = 0; i < save.size(); i++) {
         for (int j = 0; j < save[i].size(); j++) {
@@ -54,16 +56,15 @@ int main() {
     RenderWindow window(vm, "Animate", Style::Close);
 
     for (int i = 0; i < numOfCards; i++) {
-        card[i].setValue(numInsideCard[i], 50 + 180 * i, 300);
+        card[i].setValue(numInsideCard[i], i, 50 + 180 * i, 300);
     }
 
     Clock clock;
-    auto it = std::next(ptr, 1);
+    movers = save[incrementSave];
     while (window.isOpen()) {
 
         /* movers[0] = save[0][0]; */
         /* movers[1] = save[0][1]; */
-        movers = *(it);
 
         if (Keyboard::isKeyPressed(Keyboard::Escape)) {
             window.close();
@@ -76,7 +77,8 @@ int main() {
                 card[movers[1]].moveNow();
                 card[movers[1]].animateNow();
                 card[movers[0]].moveTo(card[movers[1]]);
-                card[movers[1]].moveTo(card[movers[0]]);
+                /* card[movers[1]].moveTo(card[movers[0]]); */
+                if (incrementSave < int(save.size() - 1)) movers = save[++incrementSave];
             }
         } else {
             buttonRight.unclickRight();
@@ -103,9 +105,5 @@ int main() {
         window.draw(buttonLeft.getSprite());
         window.draw(buttonRight.getSprite());
         window.display();
-
-        if (card[movers[0]].isItAnimating() == 0 && card[movers[1]].isItAnimating() == 0) {
-            it = std::next(ptr, 1);
-        }
     }
 }
