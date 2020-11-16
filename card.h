@@ -16,9 +16,9 @@ class Card {
     float m_Speed = 1000;
     bool m_moving = 0, m_animating = 0;
     Vector2f m_moveCoordinates;
-    int m_positionNumber;
 
   public:
+    int m_positionNumber;
     static Card *m_array;
     Card(int num = 0, float startX = 50, float startY = 50);
     void setValue(int num, int positionNumber, float startX, float startY);

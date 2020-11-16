@@ -58,15 +58,18 @@ void Card::moveTo(Card &moveToThisCard) {
 
     /* std::swap(m_moveCoordinates.x, moveToThisCard.m_Position.x); */
     /* std::swap(m_moveCoordinates.y, moveToThisCard.m_Position.y); */
-    int temp = m_positionNumber;
     m_moveCoordinates.x = moveToThisCard.m_Position.x;
     m_moveCoordinates.y = moveToThisCard.m_Position.y;
     moveToThisCard.m_moveCoordinates.x = m_Position.x;
     moveToThisCard.m_moveCoordinates.y = m_Position.y;
     std::cout << std::endl
               << m_positionNumber << "  " << moveToThisCard.m_positionNumber << "  " << std::endl;
-    /* m_array[m_positionNumber] = moveToThisCard; */
-    /* m_array[moveToThisCard.m_positionNumber] = *this; */
+    Card tempCard = std::move(*this);
+    m_array[m_positionNumber] = std::move(moveToThisCard);
+    m_array[moveToThisCard.m_positionNumber] = std::move(tempCard);
+    int temp = m_positionNumber;
+    m_positionNumber = moveToThisCard.m_positionNumber;
+    moveToThisCard.m_positionNumber = temp;
 }
 void Card::update(Time dt) {
     if (m_moving == 1) {

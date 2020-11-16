@@ -28,8 +28,8 @@ void Sort(int numInsideCard[], int numOfCards) {
 Card *Card::m_array{};
 int main() {
     const int numOfCards = 8;
-    int numInsideCard[numOfCards] = {6, 7, 8, 5, 4, 3, 2, 1};
-    int numInsideCardSorted[numOfCards] = {6, 7, 8, 5, 4, 3, 2, 1};
+    int numInsideCard[numOfCards] = {7, 6, 8, 5, 4, 3, 2, 1};
+    int numInsideCardSorted[numOfCards] = {7, 6, 8, 5, 4, 3, 2, 1};
     Card card[numOfCards];
     card[0].m_array = card;
     Sort(numInsideCardSorted, numOfCards);
@@ -78,7 +78,7 @@ int main() {
                 card[movers[1]].animateNow();
                 card[movers[0]].moveTo(card[movers[1]]);
                 /* card[movers[1]].moveTo(card[movers[0]]); */
-                if (incrementSave < int(save.size() - 1)) movers = save[++incrementSave];
+                /* if (incrementSave < int(save.size() - 1)) movers = save[++incrementSave]; */
             }
         } else {
             buttonRight.unclickRight();
