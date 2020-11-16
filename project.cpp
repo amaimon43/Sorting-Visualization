@@ -3,6 +3,7 @@
 #include <SFML/Graphics.hpp>
 #include <cstdlib>
 #include <iostream>
+#include <ostream>
 using namespace sf;
 
 float screenWidth = 1920;
@@ -15,7 +16,7 @@ void swap(int *xp, int *yp) {
     *yp = temp;
 }
 void Sort(int numInsideCard[], int numOfCards) {
-    /* save.push_back({0, 0}); */
+    save.push_back({0, 0});
     for (int i = 0; i < numOfCards - 1; i++) {
         for (int p = 0; p < numOfCards - i - 1; p++) {
             if (numInsideCard[p] > numInsideCard[p + 1]) {
@@ -34,7 +35,7 @@ int main() {
     card[0].m_array = card;
     Sort(numInsideCardSorted, numOfCards);
     std::vector<int> movers;
-    int incrementSave = 0;
+    int savePtr = 0;
 
     for (int i = 0; i < save.size(); i++) {
         for (int j = 0; j < save[i].size(); j++) {
@@ -42,6 +43,7 @@ int main() {
         }
         std::cout << std::endl;
     }
+    int size = save.size();
 
     Button buttonLeft;
     Button buttonRight;
@@ -60,33 +62,72 @@ int main() {
     }
 
     Clock clock;
-    movers = save[incrementSave];
+    movers = save[savePtr];
     while (window.isOpen()) {
 
         /* movers[0] = save[0][0]; */
         /* movers[1] = save[0][1]; */
-
         if (Keyboard::isKeyPressed(Keyboard::Escape)) {
             window.close();
         }
         if (Keyboard::isKeyPressed(Keyboard::Right)) {
             buttonRight.clickRight();
             if (card[movers[0]].isItAnimating() == 0 && card[movers[1]].isItAnimating() == 0) {
+                if (savePtr < int(size)) {
+                    savePtr++;
+                    movers = save[savePtr];
+                }
+                std::cout << std::endl
+                          << savePtr << "  "
+                          << "clickRight:"
+                          << "  "
+                          << movers[0] << "  " << movers[1] << std::endl;
                 card[movers[0]].moveNow();
                 card[movers[0]].animateNow();
                 card[movers[1]].moveNow();
                 card[movers[1]].animateNow();
                 card[movers[0]].moveTo(card[movers[1]]);
-                /* card[movers[1]].moveTo(card[movers[0]]); */
-                /* if (incrementSave < int(save.size() - 1)) movers = save[++incrementSave]; */
             }
         } else {
             buttonRight.unclickRight();
         }
+        if (Keyboard::isKeyPressed(Keyboard::Left)) {
+            buttonLeft.clickLeft();
+            if (card[movers[0]].isItAnimating() == 0 && card[movers[1]].isItAnimating() == 0) {
+                std::cout << std::endl
+                          << "clickLeft:"
+                          << "  "
+                          << movers[0] << "  " << movers[1] << std::endl;
+                card[movers[0]].moveNow();
+                card[movers[0]].animateNow();
+                card[movers[1]].moveNow();
+                card[movers[1]].animateNow();
+                card[movers[0]].moveTo(card[movers[1]]);
+                if (savePtr > 1) {
+                    savePtr--;
+                    movers = save[savePtr];
+                }
+            }
+        } else
+            buttonLeft.unclickLeft();
+
+        /* if (incrementFlag == 1 && savePtr < int(size)) { */
+        /*     savePtr++; */
+        /*     movers = save[savePtr]; */
+        /*     incrementFlag = 0; */
+        /* } */
 
         Time dt = clock.restart();
         for (int i = 0; i < numOfCards; i++) {
             card[i].update(dt);
+            /* if (card[i].getPositionx() > card[i].getMoveCoordinatex()) { */
+            /*     card[i].setPositionx(card[i].getMoveCoordinatex()); */
+            /*     card[i].stopNow(); */
+            /*     card[i].stopAnimation(); */
+            /* } */
+            /* else if(card[i].getPositionx()<card[i].getMoveCoordinatex()){ */
+            /*     card[i].setPositionx(card[i].getMoveCoordinatex()); */
+            /* } */
         }
         buttonLeft.update(dt);
         buttonRight.update(dt);
@@ -105,5 +146,11 @@ int main() {
         window.draw(buttonLeft.getSprite());
         window.draw(buttonRight.getSprite());
         window.display();
+
+        /* if (decrementFlag == 1 && savePtr != 0) { */
+        /*     savePtr--; */
+        /*     movers = save[savePtr]; */
+        /*     decrementFlag = 0; */
+        /* } */
     }
 }

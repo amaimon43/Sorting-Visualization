@@ -22,8 +22,11 @@ Text Card::getNumber() {
     /* << m_Sprite.getOrigin().x << " " << m_Sprite.getOrigin().y << std::endl; */
     return m_number;
 }
-float Card::getHeight() {
+float Card::getPositionx() {
     return m_Position.x;
+}
+float Card::getPositiony() {
+    return m_Position.y;
 }
 void Card::setValue(int num, int positionNumber, float startX, float startY) {
     m_positionNumber = positionNumber;
@@ -62,8 +65,8 @@ void Card::moveTo(Card &moveToThisCard) {
     m_moveCoordinates.y = moveToThisCard.m_Position.y;
     moveToThisCard.m_moveCoordinates.x = m_Position.x;
     moveToThisCard.m_moveCoordinates.y = m_Position.y;
-    std::cout << std::endl
-              << m_positionNumber << "  " << moveToThisCard.m_positionNumber << "  " << std::endl;
+    /* std::cout << std::endl */
+    /* << m_positionNumber << "  " << moveToThisCard.m_positionNumber << "  " << std::endl; */
     Card tempCard = std::move(*this);
     m_array[m_positionNumber] = std::move(moveToThisCard);
     m_array[moveToThisCard.m_positionNumber] = std::move(tempCard);
@@ -108,4 +111,10 @@ void Card::animateNow() {
 }
 void Card::stopAnimation() {
     m_animating = 0;
+}
+float Card::getMoveCoordinatex() {
+    return m_moveCoordinates.x;
+}
+float Card::getMoveCoordinatey() {
+    return m_moveCoordinates.y;
 }

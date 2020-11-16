@@ -27,9 +27,12 @@ class Card {
     void moveNow();
     void stopNow();
     void update(Time dt);
-    FloatRect getPosition();
+    float getMoveCoordinatex();
+    float getMoveCoordinatey();
+    void setPositionx(float newPostn);
+    float getPositionx();
+    float getPositiony();
     Sprite getSprite();
-    float getHeight();
     Text getNumber();
     void moveTo(Card &moveToThisCard);
     void moveToL(Card &moveToThisCard);
