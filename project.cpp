@@ -120,10 +120,10 @@ int main() {
                           << "clickLeft:"
                           << "  "
                           << movers[0] << "  " << movers[1];
-                if (savePtr > 0) {
+                if (savePtr >= 1) {
                     savePtr--;
                     movers = save[savePtr];
-                    if (savePtr == 0) leftEnabled = 0;
+                    /* if (savePtr == 0) leftEnabled = 0; */
                 } else
                     leftEnabled = 0;
                 std::cout << "pointer:   " << savePtr << "  " << std::endl;

@@ -1,6 +1,7 @@
 #include "card.h"
 #include "screenSize.h"
 #include <iostream>
+#include <math.h>
 #include <sstream>
 #include <type_traits>
 //moving=moving card, animating=selected in movers(next to animate)
@@ -65,6 +66,9 @@ void Card::moveTo(Card &moveToThisCard) {
     m_moveCoordinates.y = moveToThisCard.m_Position.y;
     moveToThisCard.m_moveCoordinates.x = m_Position.x;
     moveToThisCard.m_moveCoordinates.y = m_Position.y;
+    m_R = (pow(pow((m_Position.x - m_moveCoordinates.x), 2) + pow((m_Position.y - m_moveCoordinates.y), 2), 1.0 / 2)) / 2;
+    m_Cx = (m_Position.x + m_moveCoordinates.x) / 2;
+    m_Cy = (m_Position.y + m_moveCoordinates.y) / 2;
     /* std::cout << std::endl */
     /* << m_positionNumber << "  " << moveToThisCard.m_positionNumber << "  " << std::endl; */
     Card tempCard = std::move(*this);
@@ -78,8 +82,11 @@ void Card::update(Time dt) {
     if (m_moving == 1) {
         if (m_moveCoordinates.x > m_Position.x) {
             m_Position.x += m_Speed * dt.asSeconds();
+            m_Position.y = pow(m_R * m_R - pow(m_Position.x - m_Cx, 2), .5) + m_Cy;
+            /* std::cout << m_R << "    " << m_Position.x << "  " << m_Position.y << std::endl; */
             if (m_Position.x > m_moveCoordinates.x) {
                 m_Position.x = m_moveCoordinates.x;
+                m_Position.y = m_moveCoordinates.y;
                 m_moving = 0;
                 m_animating = 0;
             }
