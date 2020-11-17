@@ -1,6 +1,7 @@
 #include "buttons.h"
 #include "card.h"
 #include <SFML/Graphics.hpp>
+#include <algorithm>
 #include <cstdlib>
 #include <iostream>
 #include <ostream>
@@ -28,14 +29,24 @@ void Sort(int numInsideCard[], int numOfCards) {
 }
 Card *Card::m_array{};
 int main() {
-    const int numOfCards = 8;
-    int numInsideCard[numOfCards] = {7, 6, 8, 5, 4, 3, 2, 1};
-    int numInsideCardSorted[numOfCards] = {7, 6, 8, 5, 4, 3, 2, 1};
+    int numOfCards;
+    std::cout << "Enter number of cards: ";
+    std::cin >> numOfCards;
+    int numInsideCard[numOfCards];
+    int numInsideCardSorted[numOfCards];
+    for (int i = 0; i < numOfCards; i++) {
+        int x;
+        std::cout << "Enter card no. " << i + 1 << ":";
+        std::cin >> x;
+        numInsideCard[i] = x;
+    }
+    std::copy(numInsideCard, numInsideCard + numOfCards, numInsideCardSorted);
     Card card[numOfCards];
     card[0].m_array = card;
     Sort(numInsideCardSorted, numOfCards);
     std::vector<int> movers;
     int savePtr = 0;
+    bool leftEnabled = 0, rightEnabled = 1;
 
     for (int i = 0; i < save.size(); i++) {
         for (int j = 0; j < save[i].size(); j++) {
@@ -71,42 +82,51 @@ int main() {
             window.close();
         }
         if (Keyboard::isKeyPressed(Keyboard::Right)) {
-            buttonRight.clickRight();
-            if (card[movers[0]].isItAnimating() == 0 && card[movers[1]].isItAnimating() == 0) {
-                if (savePtr < int(size)) {
+            if (card[movers[0]].isItAnimating() == 0 && card[movers[1]].isItAnimating() == 0 && rightEnabled) {
+                buttonRight.clickRight();
+                if (savePtr < int(size - 1)) {
                     savePtr++;
                     movers = save[savePtr];
+                } else {
+                    rightEnabled = 0;
+                    goto outRight;
                 }
+                leftEnabled = 1;
                 std::cout << std::endl
-                          << savePtr << "  "
                           << "clickRight:"
                           << "  "
+                          << "pointer:   " << savePtr << "     "
                           << movers[0] << "  " << movers[1] << std::endl;
                 card[movers[0]].moveNow();
                 card[movers[0]].animateNow();
                 card[movers[1]].moveNow();
                 card[movers[1]].animateNow();
                 card[movers[0]].moveTo(card[movers[1]]);
+            outRight:;
             }
         } else {
             buttonRight.unclickRight();
         }
         if (Keyboard::isKeyPressed(Keyboard::Left)) {
-            buttonLeft.clickLeft();
-            if (card[movers[0]].isItAnimating() == 0 && card[movers[1]].isItAnimating() == 0) {
-                std::cout << std::endl
-                          << "clickLeft:"
-                          << "  "
-                          << movers[0] << "  " << movers[1] << std::endl;
+            if (card[movers[0]].isItAnimating() == 0 && card[movers[1]].isItAnimating() == 0 && leftEnabled) {
+                buttonLeft.clickLeft();
+                rightEnabled = 1;
                 card[movers[0]].moveNow();
                 card[movers[0]].animateNow();
                 card[movers[1]].moveNow();
                 card[movers[1]].animateNow();
                 card[movers[0]].moveTo(card[movers[1]]);
-                if (savePtr > 1) {
+                std::cout << std::endl
+                          << "clickLeft:"
+                          << "  "
+                          << movers[0] << "  " << movers[1];
+                if (savePtr > 0) {
                     savePtr--;
                     movers = save[savePtr];
-                }
+                    if (savePtr == 0) leftEnabled = 0;
+                } else
+                    leftEnabled = 0;
+                std::cout << "pointer:   " << savePtr << "  " << std::endl;
             }
         } else
             buttonLeft.unclickLeft();
