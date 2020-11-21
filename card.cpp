@@ -4,8 +4,6 @@
 #include <math.h>
 #include <sstream>
 #include <type_traits>
-//moving=moving card, animating=selected in movers(next to animate)
-//put an "updateMovers" class. This will create a moving arrow to the save and update movers by moving arrow forward or backward as necessary(next or prev respectively)
 Card::Card(int num, float startX, float startY) {
     m_Position.x = startX;
     m_Position.y = startY;
@@ -19,8 +17,6 @@ Sprite Card::getSprite() {
     return m_Sprite;
 }
 Text Card::getNumber() {
-    /* std::cout << std::endl */
-    /* << m_Sprite.getOrigin().x << " " << m_Sprite.getOrigin().y << std::endl; */
     return m_number;
 }
 float Card::getPositionx() {
@@ -34,7 +30,6 @@ void Card::setValue(int num, int positionNumber, float startX, float startY) {
     FloatRect numberRect = m_number.getLocalBounds();
     FloatRect spriteRect = m_Sprite.getLocalBounds();
 
-    /* m_Sprite.setOrigin(spriteRect.left + spriteRect.width / 2.0f, spriteRect.top + spriteRect.height / 2.0f); */
     m_number.setOrigin(numberRect.left + numberRect.width / 2.0f, numberRect.top + numberRect.height / 2.0f);
 
     m_Position.x = startX;
@@ -50,18 +45,13 @@ void Card::setValue(int num, int positionNumber, float startX, float startY) {
     m_number.setFillColor(Color::White);
     m_number.setString(m_protoNumber.str());
     m_number.setPosition(m_Sprite.getPosition().x + 43, m_Sprite.getPosition().y + 40);
-    /* m_number.setPosition(100, 100); */
+    /* m_number.setPosition(m_Sprite.getPosition().x, m_Sprite.getPosition().y); */
+    /* m_number.setPosition(m_Sprite.getOrigin().x, m_Sprite.getOrigin().y); */
 }
 int Card::isItMoving() {
     return m_moving;
 }
 void Card::moveTo(Card &moveToThisCard) {
-    /* m_positionNumber = moveToThisCard.m_positionNumber; */
-    /* m_moveCoordinates.x = m_positionNumber * 180 + 50; */
-    /* m_moveCoordinates.y = 300; */
-
-    /* std::swap(m_moveCoordinates.x, moveToThisCard.m_Position.x); */
-    /* std::swap(m_moveCoordinates.y, moveToThisCard.m_Position.y); */
     m_moveCoordinates.x = moveToThisCard.m_Position.x;
     m_moveCoordinates.y = moveToThisCard.m_Position.y;
     moveToThisCard.m_moveCoordinates.x = m_Position.x;
@@ -69,8 +59,6 @@ void Card::moveTo(Card &moveToThisCard) {
     m_R = (pow(pow((m_Position.x - m_moveCoordinates.x), 2) + pow((m_Position.y - m_moveCoordinates.y), 2), 1.0 / 2)) / 2;
     m_Cx = (m_Position.x + m_moveCoordinates.x) / 2;
     m_Cy = (m_Position.y + m_moveCoordinates.y) / 2;
-    /* std::cout << std::endl */
-    /* << m_positionNumber << "  " << moveToThisCard.m_positionNumber << "  " << std::endl; */
     Card tempCard = std::move(*this);
     m_array[m_positionNumber] = std::move(moveToThisCard);
     m_array[moveToThisCard.m_positionNumber] = std::move(tempCard);
@@ -83,7 +71,6 @@ void Card::update(Time dt) {
         if (m_moveCoordinates.x > m_Position.x) {
             m_Position.x += m_Speed * dt.asSeconds();
             m_Position.y = pow(m_R * m_R - pow(m_Position.x - m_Cx, 2), .5) + m_Cy;
-            /* std::cout << m_R << "    " << m_Position.x << "  " << m_Position.y << std::endl; */
             if (m_Position.x > m_moveCoordinates.x) {
                 m_Position.x = m_moveCoordinates.x;
                 m_Position.y = m_moveCoordinates.y;
@@ -101,7 +88,6 @@ void Card::update(Time dt) {
         }
     }
     m_Sprite.setPosition(m_Position);
-    /* m_number.setPosition(m_Sprite.getPosition().x, m_Sprite.getPosition().y); */
     m_number.setPosition(m_Sprite.getPosition().x + 43, m_Sprite.getPosition().y + 40);
 }
 void Card::moveNow() {
