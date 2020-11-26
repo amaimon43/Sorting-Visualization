@@ -39,4 +39,5 @@ class Card {
     void moveToL(Card &moveToThisCard);
     void animateNow();
     void stopAnimation();
+    void clearStream();
 };

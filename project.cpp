@@ -18,6 +18,7 @@ void swap(int *xp, int *yp) {
     *yp = temp;
 }
 void Sort(int numInsideCard[], int numOfCards) {
+    save.clear();
     save.push_back({0, 0});
     for (int i = 0; i < numOfCards - 1; i++) {
         for (int p = 0; p < numOfCards - i - 1; p++) {
@@ -29,6 +30,7 @@ void Sort(int numInsideCard[], int numOfCards) {
     }
 }
 void selectionSort(int arr[], int n) {
+    save.clear();
     save.push_back({0, 0});
     int i, j, min_idx;
 
@@ -43,6 +45,7 @@ void selectionSort(int arr[], int n) {
     }
 }
 void insertionSort(int arr[], int n) {
+    save.clear();
     save.push_back({0, 0});
     int i, key, j;
     for (i = 1; i < n; i++) {
@@ -62,7 +65,7 @@ bool Card::drawNumber;
 int main() {
     int whichSort = 1;
     int numOfCards;
-    std::cout << "Enter number of cards: ";
+    std::cout << "Enter number of cards(eg. 5): ";
     std::cin >> numOfCards;
     int numInsideCard[numOfCards];
     int numInsideCardSorted[numOfCards];
@@ -73,14 +76,15 @@ int main() {
         std::cin >> x;
         numInsideCard[i] = x;
     }
-    std::cout << "Select sort: " << std::endl;
-    std::cout << "\t"
-              << "1 for Bubble Sort";
-    std::cout << "\t"
-              << "2 for Insertion Sort" << std::endl;
-    std::cin >> whichSort;
+    /* std::cout << "Select sort: " << std::endl; */
+    /* std::cout << "\t" */
+    /*           << "1 for Bubble Sort"; */
+    /* std::cout << "\t" */
+    /*           << "2 for Insertion Sort" << std::endl; */
+    /* std::cin >> whichSort; */
+    whichSort = 1;
     std::copy(numInsideCard, numInsideCard + numOfCards, numInsideCardSorted);
-    /* std::copy(numInsideCard, numInsideCard + numOfCards, numInsideCardForReset); */
+    std::copy(numInsideCard, numInsideCard + numOfCards, numInsideCardForReset);
     Card card[numOfCards];
     card[0].m_array = card;
     if (whichSort == 1)
@@ -174,35 +178,35 @@ int main() {
     Clock clock;
     movers = save[savePtr];
     Card::drawNumber = 1;
+    int flag = 0;
     /* 1 = bubblesort */
     /* 2 = insertionSort */
     while (window.isOpen()) {
-        /* window.setKeyRepeatEnabled(false); */
-        /* sf::Event event; */
-        /* while (window.pollEvent(event)) { */
-        /*     if (event.type == sf::Event::MouseButtonPressed) { */
-        /*         if (event.mouseButton.button == sf::Mouse::Left) { */
-        /*             auto mouse_pos = sf::Mouse::getPosition(window); */
-        /*             auto translated_pos = window.mapPixelToCoords(mouse_pos); */
-        /*             if (header[1].getGlobalBounds().contains(translated_pos)) { */
-        /*                 /1* Card::drawNumber = 0; *1/ */
-        /*                 header[1].setFillColor(Color(255, 255, 255)); */
-        /*                 header[0].setFillColor(Color(255, 255, 255, 150)); */
-        /*                 whichSort = 2; */
-        /*                 savePtr = 0; */
-        /*                 movers = save[savePtr]; */
-        /*                 int init = calcInit(numOfCards); */
-        /*                 for (int i = 0; i < numOfCards; i++) { */
-        /*                     card[i].setValue(numInsideCardForReset[i], i, init + 180 * i, 300); */
-        /*                 } */
-        /*                 std::copy(numInsideCardForReset, numInsideCardForReset + numOfCards, numInsideCardSorted); */
-        /*                 insertionSort(numInsideCardSorted, numOfCards); */
-        /*             } else { */
-        /*                 /1* Card::drawNumber = 1; *1/ */
-        /*             } */
-        /*         } */
-        /*     } */
-        /* } */
+        sf::Event event;
+        while (window.pollEvent(event)) {
+            window.setKeyRepeatEnabled(false);
+            if (event.type == sf::Event::MouseButtonPressed) {
+                if (event.mouseButton.button == sf::Mouse::Left) {
+                    auto mouse_pos = sf::Mouse::getPosition(window);
+                    auto translated_pos = window.mapPixelToCoords(mouse_pos);
+                    if (header[1].getGlobalBounds().contains(translated_pos)) {
+                        /* Card::drawNumber = 0; */
+                        header[1].setFillColor(Color(255, 255, 255));
+                        header[0].setFillColor(Color(255, 255, 255, 150));
+                        whichSort = 2;
+                        savePtr = 0;
+                        flag = 1;
+                    } else if (header[0].getGlobalBounds().contains(translated_pos)) {
+                        /* Card::drawNumber = 0; */
+                        header[0].setFillColor(Color(255, 255, 255));
+                        header[1].setFillColor(Color(255, 255, 255, 150));
+                        whichSort = 1;
+                        savePtr = 0;
+                        flag = 2;
+                    }
+                }
+            }
+        }
         if (Keyboard::isKeyPressed(Keyboard::Escape)) {
             window.close();
         }
@@ -265,6 +269,30 @@ int main() {
         }
         buttonLeft.update(dt);
         buttonRight.update(dt);
+
+        if (flag == 1) {
+
+            int init = calcInit(numOfCards);
+            for (int i = 0; i < numOfCards; i++) {
+                card[i].clearStream();
+                card[i].setValue(numInsideCardForReset[i], i, init + 180 * i, 300);
+            }
+            std::copy(numInsideCardForReset, numInsideCardForReset + numOfCards, numInsideCardSorted);
+            insertionSort(numInsideCardSorted, numOfCards);
+            movers = save[savePtr];
+            flag = 0;
+        } else if (flag == 2) {
+
+            int init = calcInit(numOfCards);
+            for (int i = 0; i < numOfCards; i++) {
+                card[i].clearStream();
+                card[i].setValue(numInsideCardForReset[i], i, init + 180 * i, 300);
+            }
+            std::copy(numInsideCardForReset, numInsideCardForReset + numOfCards, numInsideCardSorted);
+            Sort(numInsideCardSorted, numOfCards);
+            movers = save[savePtr];
+            flag = 0;
+        }
 
         window.clear(Color(26, 26, 26));
         window.draw(rectangle);

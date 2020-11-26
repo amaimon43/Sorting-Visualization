@@ -44,9 +44,12 @@ void Card::setValue(int num, int positionNumber, float startX, float startY) {
     m_number.setCharacterSize(75);
     m_number.setFillColor(Color::White);
     m_number.setString(m_protoNumber.str());
-    m_number.setPosition(m_Sprite.getPosition().x + 43, m_Sprite.getPosition().y + 40);
-    /* m_number.setPosition(m_Sprite.getPosition().x, m_Sprite.getPosition().y); */
-    /* m_number.setPosition(m_Sprite.getOrigin().x, m_Sprite.getOrigin().y); */
+    /* m_number.setPosition(m_Sprite.getPosition().x + 43, m_Sprite.getPosition().y + 40); */
+}
+void Card::clearStream() {
+
+    m_protoNumber.clear(); //clear any bits set
+    m_protoNumber.str(std::string());
 }
 int Card::isItMoving() {
     return m_moving;
