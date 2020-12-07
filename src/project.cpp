@@ -62,7 +62,7 @@ bool Card::drawNumber;
 int main() {
     int whichSort = 1;
     int numOfCards;
-    std::cout << "Enter number of cards: ";
+    std::cout << "Enter number of cards(eg. 5): ";
     std::cin >> numOfCards;
     int numInsideCard[numOfCards];
     int numInsideCardSorted[numOfCards];
@@ -105,7 +105,7 @@ int main() {
     Text header[2];
     Text footer;
     Font font;
-    font.loadFromFile("./DS-DIGI.TTF");
+    font.loadFromFile("../sprites/DS-DIGI.TTF");
     FloatRect headerRect[2];
     for (int i = 0; i < 2; i++) {
         header[i].setFont(font);
@@ -147,10 +147,10 @@ int main() {
 
     Button buttonLeft;
     Button buttonRight;
-    buttonRight.putUnclickedTexture("./button_sprites/right.png");
-    buttonRight.putClickedTexture("./button_sprites/GreenRight.png");
-    buttonLeft.putUnclickedTexture("./button_sprites/Left.png");
-    buttonLeft.putClickedTexture("./button_sprites/GreenLeft.png");
+    buttonRight.putUnclickedTexture("../sprites/button_sprites/right.png");
+    buttonRight.putClickedTexture("../sprites/button_sprites/GreenRight.png");
+    buttonLeft.putUnclickedTexture("../sprites/button_sprites/Left.png");
+    buttonLeft.putClickedTexture("../sprites/button_sprites/GreenLeft.png");
     buttonLeft.setPosition(610, 600);
     buttonRight.setPosition(1110, 600);
 

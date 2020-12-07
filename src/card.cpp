@@ -8,7 +8,7 @@ Card::Card(int num, float startX, float startY) {
     m_Position.x = startX;
     m_Position.y = startY;
 
-    m_Texture.loadFromFile("./deck_4.png");
+    m_Texture.loadFromFile("../sprites/deck_4.png");
     m_Sprite.setTexture(m_Texture);
 
     m_Sprite.setPosition(m_Position);
@@ -34,12 +34,12 @@ void Card::setValue(int num, int positionNumber, float startX, float startY) {
 
     m_Position.x = startX;
     m_Position.y = startY;
-    m_Texture.loadFromFile("./deck_4.png");
+    m_Texture.loadFromFile("../sprites/deck_4.png");
     m_Sprite.setTexture(m_Texture);
     m_Sprite.setPosition(m_Position);
 
     m_protoNumber << num;
-    font.loadFromFile("./DS-DIGI.TTF");
+    font.loadFromFile("../sprites/DS-DIGI.TTF");
     m_number.setFont(font);
     m_number.setCharacterSize(75);
     m_number.setFillColor(Color::White);
