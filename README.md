@@ -1,7 +1,6 @@
 # Sorting Visualization
 
 ## NOTE: If you are a teacher, checkout `Submission-branch` branch for the final version.
-***
 
 ## Requirements
 This project has been compiled and run using
@@ -10,7 +9,6 @@ This project has been compiled and run using
 * **Library**: SFML 2.5.1
 * **Tool**: GNU Make 4.3
 
-***
 ## Usage
 
 1. Pull the repo
